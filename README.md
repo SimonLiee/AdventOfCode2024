@@ -1,0 +1,1 @@
+deno run --allow-read Part1.ts
