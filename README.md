@@ -1,7 +1,8 @@
 # Advent of Code 2024
 
-My solution to Advent of Code 2024.
+My solution to [Advent of Code 2024](https://adventofcode.com/2024).
 Done in Typescript using [Deno 2.0](https://deno.com/)
+
 
 ## How to run
 
