@@ -7,23 +7,35 @@ const equations: [number, number[]][] = text.split("\n").map((line) => {
   ];
 });
 
-function calc(testValue: number, nums: number[], currSum: number) {
-  if (nums.length === 0) {
+function calc(
+  testValue: number,
+  nums: number[],
+  index: number,
+  currSum: number,
+) {
+  if (currSum > testValue) {
+    return 0;
+  }
+  if (index >= nums.length) {
     if (currSum === testValue) {
       return testValue;
     }
     return 0;
   }
 
-  nums = [...nums];
-  const num = nums.shift() as number;
+  const num = nums[index];
 
   let ret = 0;
-  ret = calc(testValue, nums, currSum + num);
+  ret = calc(testValue, nums, index + 1, currSum + num);
   if (ret > 0) return ret;
-  ret = calc(testValue, nums, currSum * num);
+  ret = calc(testValue, nums, index + 1, currSum * num);
   if (ret > 0) return ret;
-  ret = calc(testValue, nums, Number(currSum.toString() + num.toString()));
+  ret = calc(
+    testValue,
+    nums,
+    index + 1,
+    Number(currSum.toString() + num.toString()),
+  );
   if (ret > 0) return ret;
 
   return 0;
@@ -31,8 +43,7 @@ function calc(testValue: number, nums: number[], currSum: number) {
 
 const result = equations.reduce((acc, curr) => {
   const first = curr[1].shift() as number;
-  const num = calc(curr[0], curr[1], first);
-  return acc + num;
+  return acc + calc(curr[0], curr[1], 0, first);
 }, 0);
 
 console.log(result);
