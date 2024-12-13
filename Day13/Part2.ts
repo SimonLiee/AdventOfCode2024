@@ -43,5 +43,4 @@ const result = lowestCosts.reduce(
   0n,
 );
 
-// Wrong: 875318608908
 console.log(result);
