@@ -13,9 +13,8 @@ let robots: { x: number; y: number; vx: number; vy: number }[] = text
     return ret;
   });
 
-// 101 103
-const width = 101; //11;
-const height = 103; //7;
+const width = 101;
+const height = 103; 
 
 function moveBots() {
   robots = robots.map(({ x, y, vx, vy }) => {
@@ -55,7 +54,7 @@ for (let i = 0; i < 100000; i++) {
   robots.sort(({ x: ax, y: ay }, { x: bx, y: by }) =>
     ay !== by ? ay - by : ax - bx
   );
-  let sum = robots.reduce((acc, { x, y }, i) => {
+  const sum = robots.reduce((acc, { x, y }, i) => {
     if (i + 1 < robots.length) {
       if (y === robots[i + 1].y) {
         if (!(robots[i + 1].x - x < 2)) {

@@ -13,9 +13,8 @@ let robots: { x: number; y: number; vx: number; vy: number }[] = text
     return ret;
   });
 
-  // 101 103
-const width = 101; //11;
-const height = 103; //7;
+const width = 101;
+const height = 103;
 for (let i = 0; i < 100; i++) {
   robots = robots.map(({ x, y, vx, vy }) => {
     return {
@@ -58,11 +57,5 @@ for (let i = 0; i < height; i++) {
   console.log(line)
 }
 
-let result = topleft * topright * botleft * botright;
-// console.log(robots)
-console.log(topleft ,
-  topright,
-  botleft ,
-  botright);
-
+const result = topleft * topright * botleft * botright;
 console.log(result)
