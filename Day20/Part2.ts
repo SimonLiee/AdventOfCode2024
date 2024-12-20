@@ -1,7 +1,5 @@
-const text = await Deno.readTextFile("Example.txt");
-const bytes: number[][] = text.split("\n").map((elem) =>
-  elem.split(",").map(Number)
-);
+const text = await Deno.readTextFile("Input.txt");
+const map: string[][] = text.split("\n").map((elem) => elem.split(""));
 
 type vec2 = { x: number; y: number };
 
@@ -13,7 +11,7 @@ const dirs = [
 ];
 
 function man_dist(start: vec2, end: vec2) {
-  return start.x - end.x + start.y - end.y;
+  return Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
 }
 
 function get_dir(start: vec2, end: vec2) {
@@ -95,33 +93,31 @@ function a_star(start: vec2, end: vec2, h: (arg: vec2, arg1: vec2) => number) {
   }
 }
 
-const map: string[][] = [];
-for (let i = 0; i < 7; i++) {
-  const line = [];
-  for (let j = 0; j < 7; j++) {
-    line.push(".");
+let start: vec2;
+let end: vec2;
+map.forEach((line, y) => {
+  const e = line.findIndex((char) => char === "E");
+  const s = line.findIndex((char) => char === "S");
+  if (e > 0) {
+    end = { x: e, y: y };
   }
-  map.push(line);
+  if (s > 0) {
+    start = { x: s, y: y };
+  }
+});
+
+const path = a_star(start!, end!, man_dist)!;
+const lengths: number[] = [];
+for (let i = 0; i < path.length; i++) {
+  for (let j = i + 20; j < path.length; j++) {
+    const md = man_dist(str2vec(path[i]), str2vec(path[j]));
+    if (md >= 2 && md <= 20) {
+      const newPathLength = i + md + path.length - j;
+      lengths.push(path.length - newPathLength);
+    }
+  }
 }
 
-bytes.slice(0, 12).forEach((byte) => map[byte[0]][byte[1]] = "#");
-console.log(map);
+const result = lengths.filter((a) => a >= 100).length;
 
-
-const path = a_star({ x: 0, y: 0 }, { x: 6, y: 6 }, man_dist);
-const score = path?.length;
-
-function drawMap() {
-  map.forEach((line, y) => {
-    let tmp = "";
-
-    line.forEach((c, x) => path!.findIndex((p)=>str2vec(p).x === x && str2vec(p).y === y) > -1 ? tmp = tmp + "O":tmp = tmp + c);
-
-    console.log(tmp);
-  });
-}
-
-drawMap()
-// Wrong, too high : 313
-console.log(path);
-console.log(score);
+console.log(result);
